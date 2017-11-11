@@ -1,16 +1,17 @@
 <?php
+declare(strict_types = 1);
 
 namespace Middlewares;
 
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\UriInterface;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Stream;
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Stream;
-use GuzzleHttp\Exception\RequestException;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriInterface;
 
 class Proxy implements MiddlewareInterface
 {
@@ -31,8 +32,6 @@ class Proxy implements MiddlewareInterface
 
     /**
      * Set the proxy uri target
-     *
-     * @param UriInterface $target
      */
     public function __construct(UriInterface $target)
     {
@@ -41,12 +40,8 @@ class Proxy implements MiddlewareInterface
 
     /**
      * Set the client
-     *
-     * @param ClientInterface $client
-     *
-     * @return self
      */
-    public function client(ClientInterface $client)
+    public function client(ClientInterface $client): self
     {
         $this->client = $client;
 
@@ -55,12 +50,8 @@ class Proxy implements MiddlewareInterface
 
     /**
      * Set the client options
-     *
-     * @param array $options
-     *
-     * @return self
      */
-    public function options(array $options)
+    public function options(array $options): self
     {
         $this->options = $options;
 
@@ -69,13 +60,8 @@ class Proxy implements MiddlewareInterface
 
     /**
      * Process a request and return a response.
-     *
-     * @param ServerRequestInterface  $request
-     * @param RequestHandlerInterface $handler
-     *
-     * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if (!$this->client) {
             $this->client = new Client();

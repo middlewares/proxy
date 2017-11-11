@@ -5,8 +5,9 @@ namespace Middlewares\Tests;
 use Middlewares\Proxy;
 use Middlewares\Utils\Dispatcher;
 use Middlewares\Utils\Factory;
+use PHPUnit\Framework\TestCase;
 
-class ProxyTest extends \PHPUnit_Framework_TestCase
+class ProxyTest extends TestCase
 {
     public function testProxy()
     {
