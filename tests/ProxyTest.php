@@ -17,7 +17,7 @@ class ProxyTest extends TestCase
             [
                 new Proxy(Factory::createUri('https://github.com')),
             ],
-            Factory::createServerRequest([], 'GET', 'http://example.com/middlewares/psr15-middlewares')
+            Factory::createServerRequest('GET', 'http://example.com/middlewares/psr15-middlewares')
         );
 
         $html = (string) $response->getBody();
@@ -39,7 +39,7 @@ class ProxyTest extends TestCase
                         },
                     ]),
             ],
-            Factory::createServerRequest([], 'GET', 'http://example.com/middlewares/psr15-middlewares')
+            Factory::createServerRequest('GET', 'http://example.com/middlewares/psr15-middlewares')
         );
 
         $html = (string) $response->getBody();
@@ -55,7 +55,7 @@ class ProxyTest extends TestCase
             [
                 new Proxy(Factory::createUri('http://not-found.com')),
             ],
-            Factory::createServerRequest([], 'GET', 'http://example.com/middlewares/psr15-middlewares')
+            Factory::createServerRequest('GET', 'http://example.com/middlewares/psr15-middlewares')
         );
 
         $html = (string) $response->getBody();
@@ -69,7 +69,7 @@ class ProxyTest extends TestCase
             [
                 new Proxy(Factory::createUri('https://github.com/middlewares')),
             ],
-            Factory::createServerRequest([], 'GET', 'http://example.com/psr15-middlewares')
+            Factory::createServerRequest('GET', 'http://example.com/psr15-middlewares')
         );
 
         $html = (string) $response->getBody();
