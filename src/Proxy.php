@@ -82,7 +82,9 @@ class Proxy implements MiddlewareInterface
         try {
             $response = $this->client->send($request, $this->options);
         } catch (RequestException $exception) {
-            $response = $exception->getResponse();
+            if (!$response = $exception->getResponse()) {
+                throw $exception;
+            }
         }
 
         $response = $response->withBody(new Stream($response->getBody()->detach()));

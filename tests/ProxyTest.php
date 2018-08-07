@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Middlewares\Tests;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
 use Middlewares\Proxy;
 use Middlewares\Utils\Dispatcher;
 use Middlewares\Utils\Factory;
@@ -76,5 +77,28 @@ class ProxyTest extends TestCase
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertNotFalse(stripos($html, 'middlewares/psr15-middlewares'));
+    }
+
+    /**
+     * If Guzzle throws an exception that does not have a response, we expect it to be
+     * re-thrown.
+     *
+     * @see https://github.com/middlewares/proxy/issues/1
+     */
+    public function testRethrowsExceptionIfNoResponse()
+    {
+        $client = $this->createMock(Client::class);
+        $request = Factory::createServerRequest('GET', 'http://example.com/middlewares/psr15-middlewares');
+
+        $client->method('send')->willThrowException(new ConnectException('Error', $request));
+
+        $this->expectException(ConnectException::class);
+
+        Dispatcher::run(
+            [
+                (new Proxy(Factory::createUri('https://github.com')))->client($client),
+            ],
+            $request
+        );
     }
 }
