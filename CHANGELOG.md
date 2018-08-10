@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.1] - 2018-08-10
+
+### Fixed
+
+- [#2] Re-throw exception that does not have a response
+
 ## [1.1.0] - 2018-08-04
 
 ### Added
@@ -49,7 +55,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 First version
 
+[#2]: https://github.com/middlewares/proxy/issues/2
 
+[1.1.1]: https://github.com/middlewares/proxy/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/middlewares/proxy/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/middlewares/proxy/compare/v0.3.0...v1.0.0
 [0.3.0]: https://github.com/middlewares/proxy/compare/v0.2.0...v0.3.0
