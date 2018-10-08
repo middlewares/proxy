@@ -87,8 +87,12 @@ class Proxy implements MiddlewareInterface
             }
         }
 
-        $response = $response->withBody(new Stream($response->getBody()->detach()));
+        $detachedBody = $response->getBody()->detach();
 
-        return $response;
+        if (null !== $detachedBody) {
+            $response = $response->withBody(new Stream($detachedBody));
+
+            return $response;
+        }
     }
 }
