@@ -5,13 +5,12 @@
 [![Build Status][ico-travis]][link-travis]
 [![Quality Score][ico-scrutinizer]][link-scrutinizer]
 [![Total Downloads][ico-downloads]][link-downloads]
-[![SensioLabs Insight][ico-sensiolabs]][link-sensiolabs]
 
 Middleware to create a http proxy using [Guzzle](https://github.com/guzzle/guzzle).
 
 ## Requirements
 
-* PHP >= 7.0
+* PHP >= 7.2
 * A [PSR-7 http library](https://github.com/middlewares/awesome-psr15-middlewares#psr-7-implementations)
 * A [PSR-15 middleware dispatcher](https://github.com/middlewares/awesome-psr15-middlewares#dispatcher)
 
@@ -35,17 +34,33 @@ $dispatcher = new Dispatcher([
 $response = $dispatcher->dispatch(new ServerRequest());
 ```
 
-## Options
+## Usage
 
-#### `__construct(Psr\Http\Message\UriInterface $uri)`
+You need a `Psr\Http\Message\UriInterface` with the target of the proxy.
 
-The target of the proxy.
+```php
+use Middlewares\Utils\Dispatcher;
+use Middlewares\Utils\Factory;
 
-#### `client(GuzzleHttp\ClientInterface $client)`
+$target = Factory::createUri('http://api.example.com');
+
+Dispatcher::run([
+	new Middlewares\Proxy($target)
+]);
+```
+
+### client
 
 Instance of the client used to execute the requests. If it's not provided, an instance of `GuzzleHttp\Client` is created automatically.
 
-#### `options(array $options)`
+```php
+$target = Factory::createUri('http://api.example.com');
+$client = new Client();
+
+$proxy = (new Middlewares\Proxy($target))->client($client);
+```
+
+### options
 
 Options passed to the guzzle client. [See the guzzle documentation for more information](http://docs.guzzlephp.org/en/latest/request-options.html)
 
@@ -60,10 +75,8 @@ The MIT License (MIT). Please see [LICENSE](LICENSE) for more information.
 [ico-travis]: https://img.shields.io/travis/middlewares/proxy/master.svg?style=flat-square
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/g/middlewares/proxy.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/middlewares/proxy.svg?style=flat-square
-[ico-sensiolabs]: https://img.shields.io/sensiolabs/i/86c4c4d2-aeda-421a-a5ce-32a0c66e0b6f.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/middlewares/proxy
 [link-travis]: https://travis-ci.org/middlewares/proxy
 [link-scrutinizer]: https://scrutinizer-ci.com/g/middlewares/proxy
 [link-downloads]: https://packagist.org/packages/middlewares/proxy
-[link-sensiolabs]: https://insight.sensiolabs.com/projects/86c4c4d2-aeda-421a-a5ce-32a0c66e0b6f
