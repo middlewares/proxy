@@ -54,7 +54,7 @@ class ProxyTest extends TestCase
     {
         $response = Dispatcher::run(
             [
-                new Proxy(Factory::createUri('http://not-found.com')),
+                new Proxy(Factory::createUri('https://github.com/404')),
             ],
             Factory::createServerRequest('GET', 'http://example.com/middlewares/psr15-middlewares')
         );

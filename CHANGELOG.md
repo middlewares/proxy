@@ -5,7 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.0.0] - Unreleased
+## [2.0.0] - 2020-12-03
+### Added
+- Support for PHP 8
+
 ### Removed
 - Support for PHP 7.0 and 7.1
 
@@ -47,7 +50,7 @@ First version
 
 [#2]: https://github.com/middlewares/proxy/issues/2
 
-[2.0.0]: https://github.com/middlewares/proxy/compare/v1.1.1...HEAD
+[2.0.0]: https://github.com/middlewares/proxy/compare/v1.1.1...v2.0.0
 [1.1.1]: https://github.com/middlewares/proxy/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/middlewares/proxy/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/middlewares/proxy/compare/v0.3.0...v1.0.0
