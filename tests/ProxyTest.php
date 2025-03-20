@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class ProxyTest extends TestCase
 {
-    public function testProxy()
+    public function testProxy(): void
     {
         $response = Dispatcher::run(
             [
@@ -27,7 +27,7 @@ class ProxyTest extends TestCase
         $this->assertNotFalse(stripos($html, 'middlewares/psr15-middlewares'));
     }
 
-    public function testOptionsAndClient()
+    public function testOptionsAndClient(): void
     {
         $received = false;
         $response = Dispatcher::run(
@@ -50,7 +50,7 @@ class ProxyTest extends TestCase
         $this->assertTrue($received);
     }
 
-    public function testError()
+    public function testError(): void
     {
         $response = Dispatcher::run(
             [
@@ -64,7 +64,7 @@ class ProxyTest extends TestCase
         $this->assertEquals(404, $response->getStatusCode());
     }
 
-    public function testTargetPath()
+    public function testTargetPath(): void
     {
         $response = Dispatcher::run(
             [
@@ -85,7 +85,7 @@ class ProxyTest extends TestCase
      *
      * @see https://github.com/middlewares/proxy/issues/1
      */
-    public function testRethrowsExceptionIfNoResponse()
+    public function testRethrowsExceptionIfNoResponse(): void
     {
         $client = $this->createMock(Client::class);
         $request = Factory::createServerRequest('GET', 'http://example.com/middlewares/psr15-middlewares');

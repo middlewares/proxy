@@ -5,6 +5,7 @@ namespace Middlewares;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\ResponseInterface;
@@ -26,7 +27,7 @@ class Proxy implements MiddlewareInterface
     private $client;
 
     /**
-     * @var array
+     * @var array<string,mixed>
      */
     private $options = [];
 
@@ -50,6 +51,8 @@ class Proxy implements MiddlewareInterface
 
     /**
      * Set the client options
+     *
+     * @param array<string,mixed> $options
      */
     public function options(array $options): self
     {
@@ -60,6 +63,8 @@ class Proxy implements MiddlewareInterface
 
     /**
      * Process a request and return a response.
+     *
+     * @return ResponseInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
@@ -89,10 +94,12 @@ class Proxy implements MiddlewareInterface
 
         $detachedBody = $response->getBody()->detach();
 
-        if (null !== $detachedBody) {
-            $response = $response->withBody(new Stream($detachedBody));
-
-            return $response;
+        if ($detachedBody === null) {
+            //            throw new BadResponseException::class::
         }
+
+        $response = $response->withBody(new Stream($detachedBody));
+
+        return $response;
     }
 }
