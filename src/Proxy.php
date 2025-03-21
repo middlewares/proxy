@@ -5,7 +5,6 @@ namespace Middlewares;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\ResponseInterface;
@@ -13,6 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use RuntimeException;
 
 class Proxy implements MiddlewareInterface
 {
@@ -63,8 +63,6 @@ class Proxy implements MiddlewareInterface
 
     /**
      * Process a request and return a response.
-     *
-     * @return ResponseInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
@@ -95,7 +93,7 @@ class Proxy implements MiddlewareInterface
         $detachedBody = $response->getBody()->detach();
 
         if ($detachedBody === null) {
-            //            throw new BadResponseException::class::
+            throw new RuntimeException('Detached body is empty.');
         }
 
         $response = $response->withBody(new Stream($detachedBody));

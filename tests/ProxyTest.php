@@ -9,6 +9,9 @@ use Middlewares\Proxy;
 use Middlewares\Utils\Dispatcher;
 use Middlewares\Utils\Factory;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\MessageInterface;
+use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
 
 class ProxyTest extends TestCase
 {
@@ -93,6 +96,29 @@ class ProxyTest extends TestCase
         $client->method('send')->willThrowException(new ConnectException('Error', $request));
 
         $this->expectException(ConnectException::class);
+
+        Dispatcher::run(
+            [
+                (new Proxy(Factory::createUri('https://github.com')))->client($client),
+            ],
+            $request
+        );
+    }
+
+    public function testWhenDettachedBodyIsEmptyThrowsAnException(): void
+    {
+        $client = $this->createMock(Client::class);
+        $request = Factory::createServerRequest('GET', 'http://example.com/middlewares/psr15-middlewares');
+
+        $body = $this->createMock(MessageInterface::class);
+        $body->method('detach')->willReturn(null);
+
+        $response = $this->createMock(ResponseInterface::class);
+        $response->method('getBody')->willReturn(null);
+
+        $client->method('send')->willReturn($response);
+
+        $this->expectException(RuntimeException::class);
 
         Dispatcher::run(
             [
