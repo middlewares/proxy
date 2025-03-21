@@ -8,9 +8,11 @@ use GuzzleHttp\Exception\ConnectException;
 use Middlewares\Proxy;
 use Middlewares\Utils\Dispatcher;
 use Middlewares\Utils\Factory;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 
 class ProxyTest extends TestCase
@@ -110,11 +112,11 @@ class ProxyTest extends TestCase
         $client = $this->createMock(Client::class);
         $request = Factory::createServerRequest('GET', 'http://example.com/middlewares/psr15-middlewares');
 
-        $body = $this->createMock(MessageInterface::class);
-        $body->method('detach')->willReturn(null);
+        $stream = $this->createMock(StreamInterface::class);
+        $stream->method('detach')->willReturn(null);
 
         $response = $this->createMock(ResponseInterface::class);
-        $response->method('getBody')->willReturn(null);
+        $response->method('getBody')->willReturn($stream);
 
         $client->method('send')->willReturn($response);
 

@@ -16,7 +16,7 @@
     },
     "require": {
         "php": "^7.2 || ^8.0",
-        "guzzlehttp/guzzle": "^6.2",
+        "guzzlehttp/guzzle": "^7",
         "psr/http-server-middleware": "^1"
     },
     "require-dev": {
