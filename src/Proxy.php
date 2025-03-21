@@ -12,6 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use RuntimeException;
 
 class Proxy implements MiddlewareInterface
 {
@@ -26,7 +27,7 @@ class Proxy implements MiddlewareInterface
     private $client;
 
     /**
-     * @var array
+     * @var array<string,mixed>
      */
     private $options = [];
 
@@ -50,6 +51,8 @@ class Proxy implements MiddlewareInterface
 
     /**
      * Set the client options
+     *
+     * @param array<string,mixed> $options
      */
     public function options(array $options): self
     {
@@ -89,10 +92,12 @@ class Proxy implements MiddlewareInterface
 
         $detachedBody = $response->getBody()->detach();
 
-        if (null !== $detachedBody) {
-            $response = $response->withBody(new Stream($detachedBody));
-
-            return $response;
+        if ($detachedBody === null) {
+            throw new RuntimeException('Detached body is empty.');
         }
+
+        $response = $response->withBody(new Stream($detachedBody));
+
+        return $response;
     }
 }
